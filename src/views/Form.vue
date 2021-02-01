@@ -1,0 +1,103 @@
+<template>
+  <v-flex>
+    <v-card class ="pa-3 pb-6">
+      <v-card-text>
+        <v-form lazy-validation ref = "form">
+          <v-container>
+            {{$store.state.trainingDay}}
+            <v-row>
+              <v-col
+                cols="6"
+                md="3"
+              >
+                <v-text-field
+                  label="種目"
+                  required
+                  v-model="menu.menu"
+                ></v-text-field>
+              </v-col>
+
+              <v-col
+                cols="6"
+                md="3"
+              >
+                <v-text-field
+                  label="重量"
+                  required
+                  v-model="menu.weight"
+                  type="number"
+                ></v-text-field>
+              </v-col>
+
+              <v-col
+                cols="6"
+                md="3"
+              >
+                <v-text-field
+                  label="回数"
+                  required
+                  v-model="menu.reps"
+                  type="number"
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="6"
+                md="3"
+              >
+                <v-text-field
+                  :rules="sets"
+                  label="セット数"
+                  required
+                  v-model="menu.sets"
+                  type="number"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+              <v-btn small pa-3 class="ml-2 float-right" :to="{name: 'Home'}" >cancel</v-btn>
+              <v-btn small color="info" class="ml-2 float-right"  v-on:click.stop="submit">add</v-btn>
+          </v-container>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-flex>
+</template>
+
+<script>
+import {mapActions} from 'vuex'
+  export default {
+    name: 'Form',
+    created(){
+      if(!this.$route.params.training_id) return
+    
+      const training = this.$store.getters.getTrainingId(this.$route.params.training_id)
+      if(training){
+        this.menu = training
+      }else{
+        this.$router.push({name: ('Home')})
+      }
+    },
+    data(){
+      return{
+        menu:{date:this.$store.state.trainingDay},
+      }
+    },
+    methods:{
+      submit(){
+        this.$refs.form.validate()
+        if(this.$route.params.training_id){
+          this.updateTraining({id: this.$route.params.training_id, menu: this.menu})
+        }else{
+          this.addTrainingMenu(this.menu)
+        }
+        this.$router.push({ name: 'Home'})
+        this.training = {}
+      },
+
+      ...mapActions(['addTrainingMenu','updateTraining','setDay'])
+    }
+  }
+    
+</script>
+
+<style>
+</style>

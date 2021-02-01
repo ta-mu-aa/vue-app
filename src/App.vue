@@ -1,32 +1,63 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <v-app-bar-nav-icon v-show="$store.state.login_user" v-on:click.stop="toggleSideMenu"></v-app-bar-nav-icon>
+        <v-toolbar-title>My-WORKOUT</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-app-bar>
+    <Navigation/>
+    <v-main>
+      <v-container>
+        <router-view/>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import firebase from 'firebase'
+import Navigation from './components/Navigation';
+import { mapActions } from 'vuex'
+export default {
+  name: 'App',
+  components: {
+    Navigation,
+  },
+  created(){
+    firebase.auth().onAuthStateChanged(user =>{
+      if(user){
+        this.setLoginUser(user)
+        const today = new Date().toISOString().substr(0, 10)
+        this.fetchTraining(today)
+        this.fetchTrainingDate()
+        if(this.$router.currentRoute.name === 'Login'){this.$router.push({name: 'Home'},()=>{})}
+        if(this.$router.currentRoute.name === 'signIn'){this.$router.push({name: 'Home'},()=>{})}
+      }else{
+        this.deleteLoginUser()
+        this.$router.push({name:'Login'},()=>{})
+      }
+    })
+    if(!this.$store.state.trainingDay){
+      this.$store.state.trainingDay = new Date().toISOString().substr(0, 10)
     }
+  },
+  data(){
+    return{
+    }
+  },
+  methods:{
+    ...mapActions(['toggleSideMenu','setLoginUser','logout','deleteLoginUser','fetchTraining','fetchTrainingDate']),
   }
 }
+</script>
+
+<style sass-scoped>
+.v-main{
+  padding:0px;
+}
+
 </style>
