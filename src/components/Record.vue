@@ -7,6 +7,7 @@
             :headers="headers"
             :items="training" 
             hide-default-footer
+            :mobile-breakpoint=500
           >
           <template v-slot:[`item.action`]="{ item }">
             <span>
@@ -39,6 +40,7 @@ export default {
           value: 'name',
         },
         { text: '種目', value: 'menu' , sortable:false},
+        { text: '部位', value: 'part' , sortable:false},
         { text: '回数', value: 'reps' , sortable:false},
         { text: '重量 (kg)', value: 'weight' , sortable:false},
         { text: 'セット数', value: 'sets', sortable:false },

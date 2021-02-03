@@ -69,9 +69,13 @@ export default {
 }
 </script>
 
-<style sass-scoped>
+<style scss-scoped>
 a {
   text-decoration: none;
+}
+.v-date-picker-table__events .red{
+    margin:9px;
+    padding:4px;
 }
 
 .v-date-picker-table.v-date-picker-table--date > table > tbody tr td .v-btn__content{
