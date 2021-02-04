@@ -12,7 +12,8 @@ export default new Vuex.Store({
     login_user:null,
     trainingMenu:[],
     trainingDay:null,
-    doneDate:[]
+    doneDate:[],
+    weekSet:[]
   },
 
   mutations: {
@@ -51,23 +52,10 @@ export default new Vuex.Store({
       state.doneDate.push(json.menu.date)
     }
   },
-
+  
   actions: {
     setLoginUser({commit}, user){
       commit('setLoginUser',user)
-    },
-    fetchTraining({getters, commit},date){
-      firebase.firestore().collection(`users/${getters.uid}/training`).where("date","==",date).get()
-      .then(snapshot => {snapshot.forEach(doc => commit('addTrainingMenu', {id: doc.id, menu:doc.data()}))
-      })
-    },
-    fetchTrainingDate({getters,commit}){
-      firebase.firestore().collection(`users/${getters.uid}/training`).get()
-      .then(snapshot => {snapshot.forEach(doc => commit('doneDate', { menu:doc.data()}))
-      })
-    .catch(function(error) {
-      console.log("Error getting documents",error)
-    })
     },
     login(){
       const google_auth_provider = new firebase.auth.GoogleAuthProvider()
@@ -82,6 +70,24 @@ export default new Vuex.Store({
     toggleSideMenu({commit}){
       commit('toggleSideMenu')
     },
+    fetchTraining({getters, commit},date){
+      firebase.firestore().collection(`users/${getters.uid}/training`).where("date","==",date).get()
+      .then(snapshot => {snapshot.forEach(doc => commit('addTrainingMenu', {id: doc.id, menu:doc.data()}))
+      })
+    },
+    fetchTrainingDate({getters,commit}){
+      firebase.firestore().collection(`users/${getters.uid}/training`).get()
+      .then(snapshot => {snapshot.forEach(doc => commit('doneDate', { menu:doc.data()}))
+      })
+    .catch(function(error) {
+      console.log("Error getting documents",error)
+    })
+    },
+    trainingPart({getters,commit},parts){
+      firebase.firestore().collection(`user/${getters.uid}/training`).where("part","==",parts).get().then(snapshot => {snapshot.forEach(doc => commit('trainingPart',{menu:doc.data()}))
+      })
+    },
+
     addTrainingMenu({getters,commit}, menu){
       if(getters.uid){ firebase.firestore().collection(`users/${getters.uid}/training`).add(menu).then(doc => {
         commit('addTrainingMenu', {id: doc.id, menu})

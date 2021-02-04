@@ -7,7 +7,7 @@
             :headers="headers"
             :items="training" 
             hide-default-footer
-            :mobile-breakpoint=500
+            :mobile-breakpoint="600"
           >
           <template v-slot:[`item.action`]="{ item }">
             <span>
@@ -16,6 +16,14 @@
               </router-link>
               <v-icon small class="mr-2" @click="deleteConfirm(item.id)">mdi-delete</v-icon>
             </span>
+          </template>
+          <template v-slot:[`item.part`]="{ item }">
+            <v-chip
+              :color="getColor(item.part)"
+              dark
+            >
+              {{ item.part }}
+            </v-chip>
           </template>
         </v-data-table>
       </v-flex>
@@ -50,6 +58,15 @@ export default {
     }
   },
   methods:{
+     getColor (part) {
+        if (part  === '胸') return 'red'
+        else if (part === '肩') return 'orange'
+        else if (part === '腕') return 'green'
+        else if (part === '背中') return 'blue'
+        else if (part === '脚') return 'black'
+        else return 'yellow'
+      },
+
     deleteConfirm(id){
       if(confirm('削除してもよろしいですか？')){
         this.deleteTraining({id})

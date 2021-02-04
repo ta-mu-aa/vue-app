@@ -12,7 +12,7 @@
             v-on:input="addmenu()" 
             :day-format="date => new Date(date).getDate()"
             :events="arrayEvents"
-            event-color="red"
+            event-color="info"
             :disabled="isPush"
             >
               <v-row class="float-right">
@@ -73,7 +73,7 @@ export default {
 a {
   text-decoration: none;
 }
-.v-date-picker-table__events .red{
+.v-date-picker-table__events .info{
     margin:9px;
     padding:4px;
 }

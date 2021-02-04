@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Form from '../views/Form.vue'
 import Login from '../views/Login.vue'
 import signIn from '../views/signIn.vue'
+import Data from '../views/Data.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -26,7 +27,13 @@ const routes = [
     path:'/signIn',
     name:'signIn',
     component:signIn
-  }
+  },
+  {
+    path:'/Data',
+    name:'Data',
+    component:Data
+  },
+
 ]
 
 const router = new VueRouter({
