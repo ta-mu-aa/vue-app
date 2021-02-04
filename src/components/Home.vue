@@ -1,41 +1,36 @@
 <template>
   <div class="home">
-    <v-container>
-      <v-app id="inspire">
-        <v-row justify="center" align="center">
-          <v-date-picker
-            width="400"
-            elevation="3"
-            locale="jp-ja"
-            reactive="reactive"
-            v-model="picker"
-            v-on:input="addmenu()" 
-            :day-format="date => new Date(date).getDate()"
-            :events="arrayEvents"
-            event-color="info"
-            :disabled="isPush"
-            >
-              <v-row class="float-right">
-              </v-row>
-              <router-link :to="{name:'Form'}" >
-                <v-btn normal color="info" fab small><v-icon dark>mdi-plus</v-icon></v-btn>
-              </router-link>
-          </v-date-picker>
-          <Record/>
-        </v-row>
-      </v-app>
-    </v-container>
+  <v-container class="mb-10">
+    <v-row justify="center" align="center">
+      <v-date-picker
+        width="400"
+        elevation="3"
+        locale="jp-ja"
+        reactive="reactive"
+        v-model="picker"
+        v-on:input="addmenu()" 
+        :day-format="date => new Date(date).getDate()"
+        :events="arrayEvents"
+        event-color="info"
+        :disabled="isPush"
+        >
+          <v-row class="float-right">
+          </v-row>
+          <router-link :to="{name:'Form'}" >
+            <v-btn normal color="info" fab small><v-icon dark>mdi-plus</v-icon></v-btn>
+          </router-link>
+      </v-date-picker>
+    </v-row>
+  </v-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import {mapActions} from 'vuex'
-import Record from '@/components/Record';
+
 export default {
-  components:{
-    Record,
-  },
+
   data(){
     return{
       picker: new Date().toISOString().substr(0, 10),

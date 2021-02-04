@@ -1,40 +1,43 @@
 <template>
-  <v-container>      
-    <v-layout row wrap>
-      <v-flex xs12 mt-3 justify-center>
-        <v-divider></v-divider>
-        <v-data-table
-            :headers="headers"
-            :items="training" 
-            hide-default-footer
-            :mobile-breakpoint="600"
+  <v-layout row wrap>
+    <v-flex xs12 mt-5 justify-center>
+        <Home/>
+      <v-data-table
+          
+          :headers="headers"
+          :items="training" 
+          hide-default-footer
+          :mobile-breakpoint="600"
+        >
+        <template v-slot:[`item.action`]="{ item }">
+          <span>
+            <router-link :to="{ name: 'Form', params:{ training_id:item.id }}">
+              <v-icon small class="mr-2">fas fa-edit</v-icon>
+            </router-link>
+            <v-icon small class="mr-2" @click="deleteConfirm(item.id)">mdi-delete</v-icon>
+          </span>
+        </template>
+        <template v-slot:[`item.part`]="{ item }">
+          <v-chip
+            :color="getColor(item.part)"
+            dark
           >
-          <template v-slot:[`item.action`]="{ item }">
-            <span>
-              <router-link :to="{ name: 'Form', params:{ training_id:item.id }}">
-                <v-icon small class="mr-2">fas fa-edit</v-icon>
-              </router-link>
-              <v-icon small class="mr-2" @click="deleteConfirm(item.id)">mdi-delete</v-icon>
-            </span>
-          </template>
-          <template v-slot:[`item.part`]="{ item }">
-            <v-chip
-              :color="getColor(item.part)"
-              dark
-            >
-              {{ item.part }}
-            </v-chip>
-          </template>
-        </v-data-table>
-      </v-flex>
-    </v-layout>
-  </v-container>
+            {{ item.part }}
+          </v-chip>
+        </template>
+      </v-data-table>
+    </v-flex>
+  </v-layout>        
 </template>
 
 
 <script> 
+import Home from '@/components/Home';
 import {mapActions} from 'vuex'
 export default {
+  components:{
+    Home
+  },
   created(){
     this.training = this.$store.state.trainingMenu
   },
@@ -43,7 +46,6 @@ export default {
     return {
       headers: [
         {
-          align: 'start',
           sortable: false,
           value: 'name',
         },

@@ -64,7 +64,7 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-              <v-btn small pa-3 class="ml-2 float-left" :to="{name: 'Home'}" >戻る</v-btn>
+              <v-btn small pa-3 class="ml-2 float-left" :to="{name: 'Record'}" >戻る</v-btn>
               <v-btn color="info" class="ml-2 float-right"  v-on:click.stop="submit">追加</v-btn>
           </v-container>
         </v-form>
@@ -84,7 +84,7 @@ import {mapActions} from 'vuex'
       if(training){
         this.menu = training
       }else{
-        this.$router.push({name: ('Home')})
+        this.$router.push({name: ('Record')})
       }
     },
     data(){

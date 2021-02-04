@@ -9,7 +9,7 @@
         <v-toolbar-title>My-WORKOUT</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
-    <Navigation/>
+        <Navigation/>
     <v-main>
         <router-view/>
     </v-main>
@@ -32,8 +32,8 @@ export default {
         const today = new Date().toISOString().substr(0, 10)
         this.fetchTraining(today)
         this.fetchTrainingDate()
-        if(this.$router.currentRoute.name === 'Login'){this.$router.push({name: 'Home'},()=>{})}
-        if(this.$router.currentRoute.name === 'signIn'){this.$router.push({name: 'Home'},()=>{})}
+        if(this.$router.currentRoute.name === 'Login'){this.$router.push({name: 'Record'},()=>{})}
+        if(this.$router.currentRoute.name === 'signIn'){this.$router.push({name: 'Record'},()=>{})}
       }else{
         this.deleteLoginUser()
         this.$router.push({name:'Login'},()=>{})
